@@ -2,11 +2,10 @@
 
 use App\Env;
 use MikAuth\ServiceInterface\MikUserApiServiceInterface;
-use Phlex\Sys\ServiceManager\InjectDependencies;
 use Phlex\Sys\ServiceManager\SharedService;
 use Unirest\Request;
 
-class MikUserApiService implements MikUserApiServiceInterface, InjectDependencies, SharedService {
+class MikUserApiService implements MikUserApiServiceInterface, SharedService {
 
 	protected $userContainer;
 	protected $api;

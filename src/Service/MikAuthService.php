@@ -30,33 +30,26 @@ class MikAuthService implements MikAuthServiceInterface, InjectDependencies {
 	public function getResult($token): MikUserContainerInterface {
 		$response = Request::post(Env::get('auth-result-url'), ['Accept' => 'application/json'], Request\Body::form(['token' => $token]));
 		$result = json_decode($response->raw_body, true);
-		$this->userContainer->login = $result['login'];
-		$this->userContainer->name = $result['name'];
-		$this->userContainer->email = $result['email'];
-		$this->userContainer->type = $result['type'];
+		$this->userContainer->setup($result['login'], $result['name'], $result['email'], $result['type']);
 		$this->userContainer->flush();
 
 		return $this->userContainer;
 	}
 
-	public function logout(){
+	public function logout() {
 		$this->userContainer->forget();
 		$this->userContainer->flush();
 	}
+
 	public function isWorker() { return $this->userContainer->isWorker(); }
 	public function isAuthenticated() { return $this->userContainer->isAuthenticated(); }
 
 	public function getUser($create = true) {
-		$user = $this->apiService->seekUser($this->userContainer->login);
+		$user = $this->apiService->seekUser($this->userContainer->getLogin());
 		if ($user) {
 			return $user;
-		} else if ($create) {
-			$id = $this->apiService->createUser([
-				'login' => $this->userContainer->login,
-				'name' => $this->userContainer->name,
-				'email' => $this->userContainer->email,
-				'type' => $this->userContainer->type,
-			]);
+		} else if ($create && $this->userContainer->getType() == 'worker') {
+			$id = $this->apiService->createUser($this->userContainer->getData());
 			return $this->apiService->getUser($id);
 		}
 		return null;

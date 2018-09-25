@@ -7,10 +7,24 @@ use Phlex\Sys\ServiceManager\SharedService;
 
 class MikUserContainer extends Container implements MikUserContainerInterface, InjectDependencies, SharedService {
 
-	public $login;
-	public $name;
-	public $type;
-	public $email;
+	protected $login;
+	protected $name;
+	protected $type;
+	protected $email;
+
+	public function getLogin() { return $this->login; }
+	public function getName() { return $this->name; }
+	public function getType() { return $this->type; }
+	public function getEmail() { return $this->email; }
+
+	public function getData() {
+		return [
+			'login' => $this->login,
+			'name' => $this->name,
+			'email' => $this->email,
+			'type' => $this->type
+		];
+	}
 
 	private $apiService;
 
@@ -25,6 +39,13 @@ class MikUserContainer extends Container implements MikUserContainerInterface, I
 
 	public function isAuthenticated(): bool {
 		return (bool)strlen($this->login);
+	}
+
+	public function setup($login, $name, $email, $type) {
+		$this->login = $login;
+		$this->name = $name;
+		$this->email = $email;
+		$this->type = $type;
 	}
 
 }
