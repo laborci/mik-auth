@@ -1,6 +1,6 @@
 <?php namespace MikAuth\Action;
 
-use App\Site\Website\Service\MikAuthServiceInterface;
+use MikAuth\ServiceInterface\MikAuthServiceInterface;
 use Phlex\Chameleon\RedirectResponder;
 use Phlex\Sys\ServiceManager\InjectDependencies;
 

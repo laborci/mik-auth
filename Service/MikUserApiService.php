@@ -1,4 +1,4 @@
-<?php namespace App\Site\Website\Service;
+<?php namespace MikAuth\Service;
 
 use App\Env;
 use Phlex\Sys\ServiceManager\InjectDependencies;

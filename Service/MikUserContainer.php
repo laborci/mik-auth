@@ -1,10 +1,11 @@
-<?php namespace App\Site\Website\Service;
+<?php namespace MikAuth\Service;
 
+use MikAuth\ServiceInterface\MikUserContainerInterface;
 use Phlex\Session\Container;
 use Phlex\Sys\ServiceManager\InjectDependencies;
 use Phlex\Sys\ServiceManager\SharedService;
 
-class MikUserContainer extends Container implements InjectDependencies, SharedService {
+class MikUserContainer extends Container implements MikUserContainerInterface, InjectDependencies, SharedService {
 
 	public $login;
 	public $name;
@@ -18,8 +19,12 @@ class MikUserContainer extends Container implements InjectDependencies, SharedSe
 		$this->apiService = $apiService;
 	}
 
-	public function isWorker() {
+	public function isWorker(): bool {
 		return $this->type == 'worker';
+	}
+
+	public function isAuthenticated(): bool {
+		return (bool)strlen($this->login);
 	}
 
 }
