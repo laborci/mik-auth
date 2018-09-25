@@ -1,12 +1,13 @@
 <?php namespace MikAuth\Service;
 
 use App\Env;
+use MikAuth\ServiceInterface\MikAuthServiceInterface;
 use MikAuth\ServiceInterface\MikUserApiServiceInterface;
 use MikAuth\ServiceInterface\MikUserContainerInterface;
 use Phlex\Sys\ServiceManager\InjectDependencies;
 use Unirest\Request;
 
-class MikAuthService implements InjectDependencies {
+class MikAuthService implements MikAuthServiceInterface, InjectDependencies {
 
 	protected $userContainer;
 	protected $apiService;
