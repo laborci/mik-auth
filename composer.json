@@ -1,0 +1,7 @@
+{
+	"name": "laborci/mik-auth",
+	"require": {
+		"mashape/unirest-php": "^3.0",
+		"php": ">=7.0"
+	}
+}
