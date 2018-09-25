@@ -6,6 +6,7 @@ use Unirest\Request;
 
 class MikAuthService implements InjectDependencies {
 
+
 	protected $userContainer;
 	protected $apiService;
 
