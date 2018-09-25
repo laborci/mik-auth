@@ -1,5 +1,6 @@
 <?php namespace App\Site\Website\Service;
 
+use App\Env;
 use Phlex\Sys\ServiceManager\InjectDependencies;
 use Unirest\Request;
 
@@ -8,23 +9,23 @@ class MikAuthService implements InjectDependencies {
 	protected $userContainer;
 	protected $apiService;
 
-	public function __construct(MikUserContainer $userContainer, MikUserApiService $apiService) {
+	public function __construct(MikUserContainerInterface $userContainer, MikUserApiServiceInterface $apiService) {
 		$this->userContainer = $userContainer;
 		$this->apiService = $apiService;
 	}
 
 	protected function requestToken() {
-		$response = Request::post('http://auth.mik-user.test/get-token', ['Accept' => 'application/json'], Request\Body::form(['url' => 'http://mik-user.test', 'title' => 'Test login']));
+		$response = Request::post(Env::get('auth-token-url'), ['Accept' => 'application/json'], Request\Body::form(['url' => Env::get('auth-return-url'), 'title' => Env::get('auth-page-title')]));
 		return json_decode($response->raw_body, true);
 	}
 
 	public function getLoginUrl() {
 		$token = $this->requestToken();
-		return 'http://auth.mik-user.test/login?token=' . $token;
+		return Env::get('auth-login-page') . $token;
 	}
 
 	public function getResult($token): MikUserContainer {
-		$response = Request::post('http://auth.mik-user.test/get-result', ['Accept' => 'application/json'], Request\Body::form(['token' => $token]));
+		$response = Request::post(Env::get('auth-result-url'), ['Accept' => 'application/json'], Request\Body::form(['token' => $token]));
 		$result = json_decode($response->raw_body, true);
 		$this->userContainer->login = $result['login'];
 		$this->userContainer->name = $result['name'];

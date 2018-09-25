@@ -1,4 +1,4 @@
-<?php namespace App\Site\Website\Middleware;
+<?php namespace MikAuth\Middleware;
 
 use App\Site\Website\Action\AuthRedirect;
 use App\Site\Website\Service\MikAuthService;

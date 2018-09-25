@@ -1,7 +1,6 @@
-<?php namespace App\Site\Website\Action;
+<?php namespace MikAuth\Action;
 
-
-use App\Site\Website\Service\MikAuthService;
+use App\Site\Website\Service\MikAuthServiceInterface;
 use Phlex\Chameleon\RedirectResponder;
 use Phlex\Sys\ServiceManager\InjectDependencies;
 
@@ -9,7 +8,7 @@ class AuthRedirect extends RedirectResponder implements InjectDependencies {
 
 	protected $authService;
 
-	public function __construct(MikAuthService $authService) {
+	public function __construct(MikAuthServiceInterface $authService) {
 		parent::__construct();
 		$this->authService = $authService;
 	}
