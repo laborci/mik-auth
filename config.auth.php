@@ -1,8 +1,8 @@
 <?php return [
 	'auth-result-url' => '',
-	'auth-token-url' => '',
+	'auth-token-url'  => '',
+	'auth-login-page' => '',
 	'auth-return-url' => '',
 	'auth-page-title' => '',
-	'auth-login-page' => '',
-	'user-api-url' => '',
+	'user-api-url'    => '',
 ];
