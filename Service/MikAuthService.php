@@ -1,6 +1,8 @@
-<?php namespace App\Site\Website\Service;
+<?php namespace MikAuth\Service;
 
 use App\Env;
+use MikAuth\ServiceInterface\MikUserApiServiceInterface;
+use MikAuth\ServiceInterface\MikUserContainerInterface;
 use Phlex\Sys\ServiceManager\InjectDependencies;
 use Unirest\Request;
 
@@ -24,7 +26,7 @@ class MikAuthService implements InjectDependencies {
 		return Env::get('auth-login-page') . $token;
 	}
 
-	public function getResult($token): MikUserContainer {
+	public function getResult($token): MikUserContainerInterface {
 		$response = Request::post(Env::get('auth-result-url'), ['Accept' => 'application/json'], Request\Body::form(['token' => $token]));
 		$result = json_decode($response->raw_body, true);
 		$this->userContainer->login = $result['login'];
@@ -41,7 +43,7 @@ class MikAuthService implements InjectDependencies {
 		$this->userContainer->flush();
 	}
 	public function isWorker() { return $this->userContainer->isWorker(); }
-	public function isAuthenticated() { return (bool)strlen($this->userContainer->login); }
+	public function isAuthenticated() { return $this->userContainer->isAuthenticated(); }
 
 	public function getUser($create = true) {
 		$user = $this->apiService->seekUser($this->userContainer->login);

@@ -1,22 +1,24 @@
 <?php namespace MikAuth\Middleware;
 
-use App\Site\Website\Action\AuthRedirect;
-use App\Site\Website\Service\MikAuthService;
+use App\ServiceManager;
+use MikAuth\ServiceInterface\MikAuthServiceInterface;
 use Phlex\Chameleon\Middleware;
 use Phlex\Sys\ServiceManager\InjectDependencies;
 
 class AuthCheck extends Middleware implements InjectDependencies {
 
 	protected $authService;
+	protected $authRedirectClass;
 
-	public function __construct(MikAuthService $authService) {
+	public function __construct(MikAuthServiceInterface $authService) {
 		parent::__construct();
 		$this->authService = $authService;
+		$this->authRedirectClass = ServiceManager::get('AuthRedirectClass');
 	}
 
 	protected function run() {
 		if(!$this->authService->isAuthenticated()) {
-			$this->respond(AuthRedirect::class, ['method'=>'login']);
+			$this->respond($this->authRedirectClass, ['method'=>'login']);
 		}
 		$this->next();
 	}
