@@ -1,3 +1,4 @@
+#Phlex module for handling MIK-AUTH
 
 copy the config file into your configs, fill it, and add a reference to index.php
 
