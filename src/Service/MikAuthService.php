@@ -32,7 +32,6 @@ class MikAuthService implements MikAuthServiceInterface, InjectDependencies {
 		$result = json_decode($response->raw_body, true);
 		$this->userContainer->setup($result['login'], $result['name'], $result['email'], $result['type']);
 		$this->userContainer->flush();
-
 		return $this->userContainer;
 	}
 
